@@ -52,7 +52,6 @@ public class BinaryTreePrinter <T extends No> {
 
             traverseNodes(sb, paddingForBoth, pointerLeft, node.getEsquerda(), node.getDireita() != null);
             traverseNodes(sb, paddingForBoth, pointerRight, node.getDireita(), false);
-
         }
 
     }

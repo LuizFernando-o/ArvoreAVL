@@ -53,7 +53,7 @@ public class ArvoreBinariaDePesquisa extends AbstractArvoreBinariaDePesquisa<No>
         // Pai de 'n' vira auxDir
         auxDir.setEsquerda(n);
         n.setPai(auxDir);
-
+       
         if (auxDir.getPai() != null) {
             if (auxDir.getPai().getDireita() == n) {
                 auxDir.getPai().setDireita(auxDir);
@@ -61,7 +61,7 @@ public class ArvoreBinariaDePesquisa extends AbstractArvoreBinariaDePesquisa<No>
                 auxDir.getPai().setEsquerda(auxDir);
             }
         }
-
+        // Se n for uma raiz, atualiza a raiz
         if (n == raiz) {
             raiz = auxDir;
         }
@@ -93,7 +93,7 @@ public class ArvoreBinariaDePesquisa extends AbstractArvoreBinariaDePesquisa<No>
                 auxEsq.getPai().setDireita(auxEsq);
             }
         }
-
+        // Se n for uma raiz, atualiza a raiz
         if (n == raiz) {
             raiz = auxEsq;
         }
@@ -142,16 +142,18 @@ public class ArvoreBinariaDePesquisa extends AbstractArvoreBinariaDePesquisa<No>
 
     @Override
     public No deletar(int key) {
-        // ao tentar deletar todos os nos -> nao deleta um
-        // quando o no a ser deletado tem dois filhos, a troca nao é correta
-        // quando o no a ser deletado é a raiz, e tem varios filhos, o escolhido a ser a nova raiz não é correto
-        //deletando a raiz e ela nao tem filhos? aparece a raiz mesmo estando null
         No n;
-        if(raiz.getChave() == key && retornaAltura(raiz)==0){
+        No pai = procurar(key).getPai();
+        if (raiz.getChave() == key && raiz.getDireita() == null && raiz.getEsquerda() == null) {
+            raiz = null;
+            n = raiz;
+        } else {
             n = deletarNoHelper(raiz, key);
-        }else{
-            n = deletarNoHelper(raiz, key);
-            verificaBalanceia(n);
+            if (pai == null) {
+                verificaBalanceia(n);
+            } else {
+                verificaBalanceia(pai);
+            }
         }
         return n;
     }
