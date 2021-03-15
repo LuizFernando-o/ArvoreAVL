@@ -109,12 +109,9 @@ public abstract class AbstractArvoreBinariaDePesquisa<T extends No> {
                 node = node.getEsquerda();
             } // case 3: Tem ambos os filhos
             else {
-                //T temp = minimo(node.getDireita());// Minimo da direita
-                //node.setDireita(deletarNoHelper(node.getDireita(), temp.getChave()));
-                
-                T temp = maximo(node.getEsquerda());
+                T temp = minimo(node.getDireita());// Minimo da direita
                 node.setChave(temp.getChave());
-                node.setEsquerda(deletarNoHelper(node.getEsquerda(), temp.getChave()));
+                node.setDireita(deletarNoHelper(node.getDireita(), temp.getChave()));
             }
 
         }
