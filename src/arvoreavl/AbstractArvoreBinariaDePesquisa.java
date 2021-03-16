@@ -72,16 +72,20 @@ public abstract class AbstractArvoreBinariaDePesquisa<T extends No> {
             System.out.println(node.getChave());
         }
     }
-
+    /*
+    CODIGO MODIFICADO!! 
+    Ao invez de 3 ifs, utilizamos else if.
+    -> Pois ao tentar remover um no que não existe na arvore a exceção de ponto nulo é lançada.
+    */
     protected T procurarNoHelper(T aux, int element) {
         while (aux != null) {
             if (aux.getChave() == element) {
                 return aux;
             }
-            if (element < aux.getChave()) {
+            else if (element < aux.getChave()) {
                 aux = aux.getEsquerda();
             }
-            if (element > aux.getChave()) {
+            else if (element > aux.getChave()) {
                 aux = aux.getDireita();
             }
         }

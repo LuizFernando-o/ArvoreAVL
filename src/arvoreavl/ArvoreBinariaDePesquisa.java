@@ -19,16 +19,16 @@ public class ArvoreBinariaDePesquisa extends AbstractArvoreBinariaDePesquisa<No>
 
         if (n.getFator() != 0) {
             if (n.getFator() > 1) {
-                if (n.getDireita().getFator() >= 1) {
+                if (n.getDireita().getFator() >= 0) {
                     n = rotacaoEsquerda(n);
                 } else {
                     n = rotacaoDireitaEsquerda(n.getDireita());
                 }
             } else if (n.getFator() < -1) {
-                if (n.getEsquerda().getFator() >= 1) {
-                    n = rotacaoEsquerdaDireita(n.getEsquerda());
-                } else {
+                if (n.getEsquerda().getFator() <= 0) {
                     n = rotacaoDireita(n);
+                } else {
+                    n = rotacaoEsquerdaDireita(n.getEsquerda());
                 }
             }
         }
@@ -53,7 +53,7 @@ public class ArvoreBinariaDePesquisa extends AbstractArvoreBinariaDePesquisa<No>
         // Pai de 'n' vira auxDir
         auxDir.setEsquerda(n);
         n.setPai(auxDir);
-       
+
         if (auxDir.getPai() != null) {
             if (auxDir.getPai().getDireita() == n) {
                 auxDir.getPai().setDireita(auxDir);
@@ -143,18 +143,29 @@ public class ArvoreBinariaDePesquisa extends AbstractArvoreBinariaDePesquisa<No>
     @Override
     public No deletar(int key) {
         No n;
-        No pai = procurar(key).getPai();
-        if (raiz.getChave() == key && raiz.getDireita() == null && raiz.getEsquerda() == null) {
-            raiz = null;
-            n = raiz;
+        No buscaNo = procurar(key);
+        if (buscaNo == null) {
+            System.out.println("Valor inexistente!");
+            n = null;
         } else {
-            n = deletarNoHelper(raiz, key);
-            if (pai == null) {
-                verificaBalanceia(n);
+            No pai = buscaNo.getPai();
+            if (raiz.getChave() == key && raiz.getDireita() == null && raiz.getEsquerda() == null) {
+                System.out.println("Árvore vazia!");
+                raiz = null;
+                n = raiz;
             } else {
-                verificaBalanceia(pai);
+                n = deletarNoHelper(raiz, key);
+                if (pai == null) {
+                    raiz = n;
+                    verificaBalanceia(n);
+                } else {
+                    verificaBalanceia(pai);
+                }
+                
+               
             }
         }
+
         return n;
     }
 }
